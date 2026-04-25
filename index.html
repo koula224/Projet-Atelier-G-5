@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CahierSmart — Gestion intelligente des cahiers de textes</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Feuilles de style -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/modal.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     NAVIGATION
+═══════════════════════════════════════════ -->
+<nav>
+  <a href="#hero" class="logo">
+    <div class="logo-icon">CS</div>
+    CahierSmart
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#acteurs">Acteurs</a></li>
+    <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+    <li><a href="#planning">Planning</a></li>
+    <li><a href="#technos">Technologies</a></li>
+  </ul>
+
+  <a href="#cta" class="btn-nav">Démo gratuite</a>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <div class="hero-badge">
+    <span>*</span> Nouveau · Année scolaire 2025–2026
+  </div>
+
+  <h1>La gestion des cahiers<br>de textes <em>réinventée</em></h1>
+
+  <p>Une plateforme intelligente qui connecte enseignants, élèves, parents et administration — pour un suivi pédagogique en temps réel, sans friction.</p>
+
+  <div class="hero-btns">
+    <a href="#fonctionnalites" class="btn-primary">Découvrir la solution</a>
+    <a href="#planning" class="btn-secondary">Voir le planning</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">4</span>
+      <span class="stat-label">Acteurs connectés</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">12+</span>
+      <span class="stat-label">Fonctionnalités</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">100%</span>
+      <span class="stat-label">En ligne &amp; mobile</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">0 h</span>
+      <span class="stat-label">Papier économisé</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ACTEURS
+═══════════════════════════════════════════ -->
+<section class="actors" id="acteurs">
+  <div class="section-tag">Qui utilise CahierSmart ?</div>
+  <h2 class="section-title">Une plateforme,<br>quatre acteurs clés</h2>
+  <p class="section-sub">Chaque utilisateur dispose d'un espace personnalisé adapté à ses besoins et permissions.</p>
+
+  <div class="actors-grid">
+    <div class="actor-card">
+      <div class="actor-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </div>
+      <h3>Enseignant</h3>
+      <p>Saisit les cours, objectifs pédagogiques, devoirs et évaluations directement depuis son espace.</p>
+    </div>
+    <div class="actor-card">
+      <div class="actor-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+      </div>
+      <h3>Élève</h3>
+      <p>Consulte son programme, ses devoirs, ses notes et son historique de cours en temps réel.</p>
+    </div>
+    <div class="actor-card">
+      <div class="actor-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+        </svg>
+      </div>
+      <h3>Parent</h3>
+      <p>Suit la scolarité de son enfant, reçoit des alertes et communique avec les enseignants.</p>
+    </div>
+    <div class="actor-card">
+      <div class="actor-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+        </svg>
+      </div>
+      <h3>Administrateur</h3>
+      <p>Gère les emplois du temps, les classes, les utilisateurs et génère des rapports analytiques.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FONCTIONNALITÉS
+═══════════════════════════════════════════ -->
+<section id="fonctionnalites" class="section-navy">
+  <div class="section-tag">Ce que nous offrons</div>
+  <h2 class="section-title">Fonctionnalités<br>intelligentes</h2>
+
+  <div class="features-wrap">
+    <div class="feature-list">
+
+      <div class="feature-item">
+        <div class="feature-dot">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+        </div>
+        <div>
+          <h4>Saisie structurée des cours</h4>
+          <p>Titre, objectifs, contenu, documents joints et compétences ciblées pour chaque séance.</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-dot">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </div>
+        <div>
+          <h4>Alertes &amp; notifications</h4>
+          <p>Rappels automatiques pour les devoirs, évaluations et absences non justifiées.</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-dot">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+        </div>
+        <div>
+          <h4>Tableaux de bord analytiques</h4>
+          <p>Statistiques de progression, taux de complétion et indicateurs pédagogiques par classe.</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-dot">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </div>
+        <div>
+          <h4>Calendrier pédagogique</h4>
+          <p>Vue hebdomadaire et mensuelle synchronisée avec l'emploi du temps officiel.</p>
+        </div>
+      </div>
+
+      <div class="feature-item">
+        <div class="feature-dot">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <div>
+          <h4>Gestion des rôles &amp; accès</h4>
+          <p>Permissions granulaires par profil — aucune donnée accessible sans autorisation.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MOCK DASHBOARD -->
+    <div class="dashboard-mock">
+      <div class="mock-topbar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <span class="mock-topbar-label">CahierSmart · Tableau de bord enseignant</span>
+      </div>
+      <div class="mock-body">
+        <div class="mock-cards">
+          <div class="mock-card">
+            <div class="mock-card-num">24</div>
+            <div class="mock-card-label">Cours saisis ce mois</div>
+          </div>
+          <div class="mock-card">
+            <div class="mock-card-num">6</div>
+            <div class="mock-card-label">Classes actives</div>
+          </div>
+          <div class="mock-card">
+            <div class="mock-card-num">3</div>
+            <div class="mock-card-label">Devoirs en attente</div>
+          </div>
+          <div class="mock-card">
+            <div class="mock-card-num">98%</div>
+            <div class="mock-card-label">Taux de saisie</div>
+          </div>
+        </div>
+        <table class="mock-table">
+          <thead>
+            <tr>
+              <th>Séance</th>
+              <th>Classe</th>
+              <th>Date</th>
+              <th>Statut</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Algèbre linéaire</td>
+              <td>T·S1</td>
+              <td>06/04</td>
+              <td><span class="badge badge-ok">Saisi</span></td>
+            </tr>
+            <tr>
+              <td>Fonctions dérivées</td>
+              <td>T·S2</td>
+              <td>05/04</td>
+              <td><span class="badge badge-ok">Saisi</span></td>
+            </tr>
+            <tr>
+              <td>Statistiques</td>
+              <td>1ere·A</td>
+              <td>07/04</td>
+              <td><span class="badge badge-pending">En cours</span></td>
+            </tr>
+            <tr>
+              <td>Géométrie</td>
+              <td>3eme·B</td>
+              <td>07/04</td>
+              <td><span class="badge badge-miss">A faire</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     PLANNING
+═══════════════════════════════════════════ -->
+<section class="planning" id="planning">
+  <div class="section-tag">Planification du projet</div>
+  <h2 class="section-title">Calendrier de développement</h2>
+  <p class="section-sub">4 grandes phases sur 8 semaines, du cadrage à la mise en production.</p>
+
+  <div class="gantt-wrap">
+    <div class="gantt-inner">
+      <div class="gantt-header">
+        <span>Phase</span>
+        <span>S1</span><span>S2</span><span>S3</span><span>S4</span>
+        <span>S5</span><span>S6</span><span>S7</span><span>S8</span>
+      </div>
+
+      <div class="gantt-row">
+        <span class="gantt-label">Planification &amp; CDC</span>
+        <div class="gantt-bar-wrap bar-blue" style="--start:2; --span:2;">Analyse</div>
+      </div>
+      <div class="gantt-row">
+        <span class="gantt-label">Site vitrine</span>
+        <div class="gantt-bar-wrap bar-teal" style="--start:3; --span:2;">HTML/CSS</div>
+      </div>
+      <div class="gantt-row">
+        <span class="gantt-label">Backend API</span>
+        <div class="gantt-bar-wrap bar-purple" style="--start:3; --span:4;">Node.js + BDD</div>
+      </div>
+      <div class="gantt-row">
+        <span class="gantt-label">Frontend App</span>
+        <div class="gantt-bar-wrap bar-blue" style="--start:5; --span:3;">React / Vue</div>
+      </div>
+      <div class="gantt-row">
+        <span class="gantt-label">Tests &amp; QA</span>
+        <div class="gantt-bar-wrap bar-amber" style="--start:7; --span:1;">Tests</div>
+      </div>
+      <div class="gantt-row">
+        <span class="gantt-label">Déploiement</span>
+        <div class="gantt-bar-wrap bar-teal" style="--start:8; --span:1;">Mise en prod</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     TECHNOLOGIES
+═══════════════════════════════════════════ -->
+<section id="technos" class="section-navy">
+  <div class="section-tag">Stack technique</div>
+  <h2 class="section-title">Technologies utilisées</h2>
+  <p class="section-sub">Un choix de technologies modernes, éprouvées et open source pour une application robuste et scalable.</p>
+
+  <div class="tech-grid">
+    <div class="tech-card">
+      <div class="tech-logo-svg">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="#61DAFB">
+          <circle cx="12" cy="12" r="2.5"/>
+          <path fill="none" stroke="#61DAFB" stroke-width="1.2"
+            d="M12 4.5c4.8 0 8.7 3.4 8.7 7.5s-3.9 7.5-8.7 7.5-8.7-3.4-8.7-7.5S7.2 4.5 12 4.5z"/>
+          <path fill="none" stroke="#61DAFB" stroke-width="1.2"
+            d="M5.4 8.25C7.8 4 11.3 1.7 12 2.1c.7.4.7 4.8 0 9.9-.7 5.1-1.7 8.9-2.4 9.3"/>
+          <path fill="none" stroke="#61DAFB" stroke-width="1.2"
+            d="M18.6 8.25C16.2 4 12.7 1.7 12 2.1"/>
+        </svg>
+      </div>
+      <h4>React.js</h4>
+      <p>Interface utilisateur dynamique et réactive</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-logo-svg">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="#68A063">
+          <path d="M12 1.85L2 7v10l10 5.15L22 17V7L12 1.85z"/>
+          <path fill="#3c873a" d="M12 1.85v20.3L22 17V7L12 1.85z"/>
+          <path fill="#fff" d="M16.3 15.4c-.2.7-.8 1.2-1.6 1.4-.5.1-1 .1-1.5-.1-.4-.2-.7-.5-.9-.9l1-.6c.1.2.2.4.4.5.2.1.5.2.7.1.3-.1.5-.2.6-.5.1-.2.1-.5.1-.7V9.8h1.2v5.6z"/>
+        </svg>
+      </div>
+      <h4>Node.js</h4>
+      <p>Serveur backend performant et asynchrone</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-logo-svg">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="#336791">
+          <ellipse cx="12" cy="5" rx="8" ry="3"/>
+          <path d="M4 5v4c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/>
+          <path d="M4 9v4c0 1.66 3.58 3 8 3s8-1.34 8-3V9"/>
+          <path d="M4 13v4c0 1.66 3.58 3 8 3s8-1.34 8-3v-4"/>
+        </svg>
+      </div>
+      <h4>PostgreSQL</h4>
+      <p>Base de données relationnelle robuste</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-logo-svg">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="3" width="18" height="18" rx="3" fill="#2D3748"/>
+          <path d="M7 12h10M12 7v10" stroke="#00e5b0" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h4>Prisma ORM</h4>
+      <p>Modélisation et migrations de la BDD</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-logo-svg">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="11" width="18" height="11" rx="2" stroke="#f59e0b" stroke-width="1.8"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="#f59e0b" stroke-width="1.8"/>
+          <circle cx="12" cy="16" r="1.5" fill="#f59e0b"/>
+        </svg>
+      </div>
+      <h4>JWT / OAuth</h4>
+      <p>Authentification sécurisée par rôles</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-logo-svg">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="#f0f6fc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h4>Git / GitHub</h4>
+      <p>Versioning et collaboration en équipe</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-logo-svg">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+          <rect x="2" y="8" width="20" height="12" rx="2" stroke="#2496ED" stroke-width="1.8"/>
+          <path d="M6 8V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2" stroke="#2496ED" stroke-width="1.8"/>
+          <line x1="2" y1="12" x2="22" y2="12" stroke="#2496ED" stroke-width="1.8"/>
+        </svg>
+      </div>
+      <h4>Docker</h4>
+      <p>Conteneurisation pour le déploiement</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-logo-svg">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#fff" stroke-width="1.8"/>
+          <path d="M2 17l10 5 10-5" stroke="#fff" stroke-width="1.8"/>
+          <path d="M2 12l10 5 10-5" stroke="#a78bfa" stroke-width="1.8"/>
+        </svg>
+      </div>
+      <h4>Vercel / Railway</h4>
+      <p>Hébergement cloud continu (CI/CD)</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CTA
+═══════════════════════════════════════════ -->
+<section class="cta-section" id="cta">
+  <div class="cta-box">
+    <h2>Pret a moderniser votre etablissement ?</h2>
+    <p>Rejoignez les premières écoles qui adoptent CahierSmart pour une pédagogie plus fluide et connectée.</p>
+    <div class="cta-btns">
+      <button onclick="openModal('demo')" class="btn-primary">Demander une démo</button>
+      <button onclick="openModal('doc')" class="btn-secondary">Voir la documentation</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<footer>
+  <span>© 2025 CahierSmart — Projet académique</span>
+  <span>Construit avec HTML · CSS · JS</span>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     MODAL DEMO
+═══════════════════════════════════════════ -->
+<div id="modal-demo" class="modal-overlay" onclick="closeOnOverlay(event,'modal-demo')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-demo')">x</button>
+
+    <div class="modal-header">
+      <div class="modal-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2">
+          <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+        </svg>
+      </div>
+      <h3>Demander une démo gratuite</h3>
+      <p>Remplissez le formulaire — un conseiller vous contacte sous 24 h.</p>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Prénom</label>
+        <input type="text" placeholder="Ex : Moussa" id="f-prenom">
+      </div>
+      <div class="form-group">
+        <label>Nom</label>
+        <input type="text" placeholder="Ex : Diallo" id="f-nom">
+      </div>
+      <div class="form-group">
+        <label>Email professionnel</label>
+        <input type="email" placeholder="vous@etablissement.sn" id="f-email">
+      </div>
+      <div class="form-group">
+        <label>Téléphone</label>
+        <input type="tel" placeholder="+221 77 000 00 00" id="f-tel">
+      </div>
+      <div class="form-group full">
+        <label>Nom de l'établissement</label>
+        <input type="text" placeholder="Lycée Technique de Dakar" id="f-etab">
+      </div>
+      <div class="form-group full">
+        <label>Votre rôle</label>
+        <select id="f-role">
+          <option value="">-- Choisir --</option>
+          <option>Directeur / Principal</option>
+          <option>Enseignant</option>
+          <option>Responsable informatique</option>
+          <option>Autre</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label>Nombre d'élèves approximatif</label>
+        <div class="radio-row">
+          <label class="radio-opt"><input type="radio" name="eleves" value="moins200"> Moins de 200</label>
+          <label class="radio-opt"><input type="radio" name="eleves" value="200-500"> 200 – 500</label>
+          <label class="radio-opt"><input type="radio" name="eleves" value="500-1000"> 500 – 1 000</label>
+          <label class="radio-opt"><input type="radio" name="eleves" value="plus1000"> Plus de 1 000</label>
+        </div>
+      </div>
+      <div class="form-group full">
+        <label>Message (optionnel)</label>
+        <textarea placeholder="Dites-nous ce que vous cherchez à améliorer..." rows="3" id="f-msg"></textarea>
+      </div>
+    </div>
+
+    <button class="btn-submit" onclick="submitDemo()">Envoyer la demande</button>
+    <p id="demo-success" class="success-msg" style="display:none;">Demande envoyée ! Nous vous contacterons très bientôt.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     MODAL DOCUMENTATION
+═══════════════════════════════════════════ -->
+<div id="modal-doc" class="modal-overlay" onclick="closeOnOverlay(event,'modal-doc')">
+  <div class="modal-box modal-box-wide">
+    <button class="modal-close" onclick="closeModal('modal-doc')">x</button>
+
+    <div class="modal-header">
+      <div class="modal-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+      </div>
+      <h3>Documentation CahierSmart</h3>
+      <p>Guide complet pour comprendre et utiliser la plateforme.</p>
+    </div>
+
+    <div class="doc-tabs">
+      <button class="doc-tab active" onclick="showTab('intro', this)">Introduction</button>
+      <button class="doc-tab" onclick="showTab('install', this)">Installation</button>
+      <button class="doc-tab" onclick="showTab('roles', this)">Rôles &amp; accès</button>
+      <button class="doc-tab" onclick="showTab('api', this)">API</button>
+    </div>
+
+    <!-- Tab : Intro -->
+    <div id="tab-intro" class="doc-content active">
+      <h4>Qu'est-ce que CahierSmart ?</h4>
+      <p>CahierSmart est une application web de gestion des cahiers de textes scolaires. Elle remplace le support papier par une interface numérique centralisée, accessible depuis n'importe quel appareil.</p>
+      <div class="doc-cards">
+        <div class="doc-card">
+          <strong>Objectif principal</strong>
+          <p>Centraliser la saisie et la consultation des contenus pédagogiques en temps réel.</p>
+        </div>
+        <div class="doc-card">
+          <strong>Interconnexion</strong>
+          <p>Enseignants, élèves, parents et admins partagent un espace commun sécurisé.</p>
+        </div>
+        <div class="doc-card">
+          <strong>Multi-device</strong>
+          <p>Interface responsive disponible sur ordinateur, tablette et mobile.</p>
+        </div>
+      </div>
+      <h4>Architecture générale</h4>
+      <div class="arch-diagram">
+        <div class="arch-block">Frontend<br><small>React.js</small></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-block">API REST<br><small>Node.js</small></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-block">Base de données<br><small>PostgreSQL</small></div>
+      </div>
+    </div>
+
+    <!-- Tab : Installation -->
+    <div id="tab-install" class="doc-content">
+      <h4>Prérequis</h4>
+      <ul class="doc-list">
+        <li>Node.js v18+</li>
+        <li>PostgreSQL 14+</li>
+        <li>Git installé</li>
+        <li>Un compte GitHub</li>
+      </ul>
+      <h4>Étapes d'installation</h4>
+      <div class="step-list">
+        <div class="step"><span class="step-num">1</span><div><strong>Cloner le dépôt</strong><div class="code-block">git clone https://github.com/votre-org/cahiersmart.git<br>cd cahiersmart</div></div></div>
+        <div class="step"><span class="step-num">2</span><div><strong>Installer les dépendances</strong><div class="code-block">npm install</div></div></div>
+        <div class="step"><span class="step-num">3</span><div><strong>Configurer l'environnement</strong><div class="code-block">cp .env.example .env<br># Renseigner DATABASE_URL, JWT_SECRET...</div></div></div>
+        <div class="step"><span class="step-num">4</span><div><strong>Lancer les migrations</strong><div class="code-block">npx prisma migrate dev</div></div></div>
+        <div class="step"><span class="step-num">5</span><div><strong>Démarrer l'application</strong><div class="code-block">npm run dev</div></div></div>
+      </div>
+    </div>
+
+    <!-- Tab : Rôles -->
+    <div id="tab-roles" class="doc-content">
+      <h4>Gestion des rôles</h4>
+      <p>CahierSmart utilise un système RBAC (Role-Based Access Control) avec 4 profils distincts.</p>
+      <table class="doc-table">
+        <thead>
+          <tr><th>Rôle</th><th>Saisie cours</th><th>Voir notes</th><th>Gérer users</th><th>Stats globales</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Enseignant</td><td class="yes">Oui</td><td class="yes">Sa classe</td><td class="no">Non</td><td class="no">Non</td></tr>
+          <tr><td>Eleve</td><td class="no">Non</td><td class="yes">Ses notes</td><td class="no">Non</td><td class="no">Non</td></tr>
+          <tr><td>Parent</td><td class="no">Non</td><td class="yes">Son enfant</td><td class="no">Non</td><td class="no">Non</td></tr>
+          <tr><td>Admin</td><td class="yes">Oui</td><td class="yes">Oui</td><td class="yes">Oui</td><td class="yes">Oui</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tab : API -->
+    <div id="tab-api" class="doc-content">
+      <h4>Endpoints principaux</h4>
+      <div class="endpoint-list">
+        <div class="endpoint"><span class="method get">GET</span><span class="route">/api/cahiers</span><span class="desc">Lister tous les cahiers de textes</span></div>
+        <div class="endpoint"><span class="method post">POST</span><span class="route">/api/cahiers</span><span class="desc">Créer une nouvelle entrée</span></div>
+        <div class="endpoint"><span class="method get">GET</span><span class="route">/api/cahiers/:id</span><span class="desc">Détail d'une séance</span></div>
+        <div class="endpoint"><span class="method put">PUT</span><span class="route">/api/cahiers/:id</span><span class="desc">Modifier une séance</span></div>
+        <div class="endpoint"><span class="method del">DELETE</span><span class="route">/api/cahiers/:id</span><span class="desc">Supprimer une séance</span></div>
+        <div class="endpoint"><span class="method post">POST</span><span class="route">/api/auth/login</span><span class="desc">Authentification → JWT token</span></div>
+        <div class="endpoint"><span class="method get">GET</span><span class="route">/api/users/me</span><span class="desc">Profil de l'utilisateur connecté</span></div>
+        <div class="endpoint"><span class="method get">GET</span><span class="route">/api/stats/classes</span><span class="desc">Statistiques par classe (admin)</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Script principal -->
+<script src="js/main.js"></script>
+
+</body>
+</html>
