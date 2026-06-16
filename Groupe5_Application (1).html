@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CahierSmart — Application</title>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+
+<style>
+/* ══════════════════════════════════════════
+   DESIGN SYSTEM — 1:1 copié depuis site.html
+══════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root {
+  --navy:#0a1628;
+  --navy2:#112240;
+  --blue:#1a56db;
+  --blue-light:#3b82f6;
+  --accent:#00e5b0;
+  --accent2:#f59e0b;
+  --text:#e2e8f0;
+  --muted:#8892a4;
+  --card:rgba(255,255,255,0.04);
+  --card-border:rgba(255,255,255,0.08);
+  --radius:16px;
+}
+
+html,body,#root{height:100%;overflow:hidden}
+body{
+  font-family:'Sora',sans-serif;
+  background:var(--navy);
+  color:var(--text);
+  line-height:1.6;
+}
+
+/* Grille décorative — identique au site */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(26,86,219,0.07) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(26,86,219,0.07) 1px,transparent 1px);
+  background-size:48px 48px;
+  pointer-events:none;z-index:0;
+}
+
+/* ── LAYOUT ─────────────────── */
+.app{display:flex;height:100vh;position:relative;z-index:1}
+
+/* ── SIDEBAR ────────────────── */
+.sidebar{
+  width:230px;min-width:230px;
+  background:rgba(10,22,40,0.92);
+  backdrop-filter:blur(20px);
+  border-right:1px solid var(--card-border);
+  display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
+}
+/* blob déco sidebar */
+.sidebar::after{
+  content:'';position:absolute;
+  width:200px;height:200px;border-radius:50%;
+  background:var(--blue);filter:blur(80px);
+  opacity:.1;bottom:-60px;left:-60px;pointer-events:none;
+}
+.sidebar-logo{
+  padding:20px 18px 18px;
+  border-bottom:1px solid var(--card-border);
+  display:flex;align-items:center;gap:10px;
+}
+.logo-icon{
+  width:36px;height:36px;
+  background:linear-gradient(135deg,var(--blue),var(--accent));
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.logo-name{font-size:1.05rem;font-weight:700;color:#fff}
+.logo-sub{font-size:.68rem;color:var(--muted);margin-top:1px}
+
+.sidebar-nav{flex:1;padding:14px 10px;overflow-y:auto;display:flex;flex-direction:column;gap:3px}
+.nav-section{
+  font-size:.65rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);opacity:.55;
+  padding:10px 10px 4px;
+}
+.nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:10px;
+  cursor:pointer;color:var(--muted);
+  font-size:.8rem;font-weight:500;
+  transition:all .2s;border:none;background:none;
+  width:100%;text-align:left;font-family:'Sora',sans-serif;
+}
+.nav-item:hover{background:rgba(255,255,255,.05);color:var(--text)}
+.nav-item.active{
+  background:rgba(26,86,219,.18);
+  border:1px solid rgba(26,86,219,.3);
+  color:#fff;
+}
+.nav-item.active .nav-ico{
+  background:linear-gradient(135deg,var(--blue),var(--blue-light));
+}
+.nav-ico{
+  width:26px;height:26px;border-radius:7px;
+  background:rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;flex-shrink:0;transition:background .2s;
+}
+
+.sidebar-user{
+  padding:14px 16px;border-top:1px solid var(--card-border);
+  display:flex;align-items:center;gap:10px;position:relative;z-index:1;
+}
+.user-av{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--blue),var(--accent));
+  display:flex;align-items:center;justify-content:center;
+  font-size:.72rem;font-weight:700;color:#fff;
+}
+.user-name{font-size:.82rem;font-weight:600;color:#fff}
+.user-role{font-size:.68rem;color:var(--muted)}
+
+/* ── MAIN ───────────────────── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+/* topbar — nav du site */
+.topbar{
+  height:56px;min-height:56px;
+  background:rgba(10,22,40,.88);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--card-border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;gap:16px;position:relative;z-index:5;
+}
+.topbar-title{
+  font-family:'DM Serif Display',serif;
+  font-size:1.1rem;color:#fff;
+}
+.topbar-right{display:flex;align-items:center;gap:10px}
+
+/* ── CONTENT ────────────────── */
+.content{
+  flex:1;overflow-y:auto;padding:24px;
+  scroll-behavior:smooth;
+}
+.content::-webkit-scrollbar{width:4px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:2px}
+
+/* ── SECTION TAG — identique site ── */
+.section-tag{
+  display:inline-block;
+  font-size:.72rem;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:.75rem;
+}
+.section-title{
+  font-family:'DM Serif Display',serif;
+  font-size:1.6rem;font-weight:400;
+  color:#fff;margin-bottom:.75rem;line-height:1.15;
+}
+.section-sub{
+  font-size:.88rem;color:var(--muted);
+  max-width:520px;line-height:1.75;margin-bottom:2rem;
+}
+
+/* ── BUTTONS — identiques site ── */
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:.55rem 1.4rem;border-radius:8px;
+  font-family:'Sora',sans-serif;font-size:.85rem;font-weight:600;
+  cursor:pointer;border:none;text-decoration:none;
+  transition:all .2s;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--blue),var(--blue-light));
+  color:#fff;box-shadow:0 4px 20px rgba(26,86,219,.3);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(26,86,219,.45)}
+.btn-secondary{
+  background:transparent;color:var(--text);
+  border:1px solid var(--card-border);
+}
+.btn-secondary:hover{background:var(--card)}
+.btn-danger{
+  background:rgba(239,68,68,.12);color:#f87171;
+  border:1px solid rgba(239,68,68,.2);
+}
+.btn-danger:hover{background:rgba(239,68,68,.22)}
+.btn-accent{
+  background:rgba(0,229,176,.1);color:var(--accent);
+  border:1px solid rgba(0,229,176,.2);
+}
+.btn-sm{padding:.4rem .9rem;font-size:.75rem}
+
+/* ── BADGES — identiques site ── */
+.badge{
+  display:inline-block;padding:3px 10px;
+  border-radius:100px;font-size:.7rem;font-weight:600;
+}
+.badge-ok{background:rgba(0,229,176,.15);color:var(--accent)}
+.badge-pending{background:rgba(245,158,11,.15);color:#f59e0b}
+.badge-miss{background:rgba(239,68,68,.15);color:#f87171}
+.badge-blue{background:rgba(26,86,219,.18);color:#60a5fa}
+.badge-purple{background:rgba(124,58,237,.15);color:#a78bfa}
+.badge-hero{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(0,229,176,.1);border:1px solid rgba(0,229,176,.25);
+  color:var(--accent);padding:.4rem 1rem;border-radius:100px;
+  font-size:.78rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+}
+
+/* ── CARDS — identiques site ── */
+.card{
+  background:var(--card);
+  border:1px solid var(--card-border);
+  border-radius:var(--radius);padding:1.25rem;
+  transition:border-color .3s;
+}
+.card:hover{border-color:rgba(26,86,219,.3)}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.card-title{font-family:'DM Serif Display',serif;font-size:.95rem;color:#fff}
+
+/* ── STATS — mock du site ── */
+.mock-cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:.75rem;margin-bottom:1.25rem;
+}
+.mock-card{
+  background:rgba(26,86,219,.12);
+  border:1px solid rgba(26,86,219,.2);
+  border-radius:10px;padding:1rem;
+  transition:border-color .3s,transform .2s;
+}
+.mock-card:hover{border-color:rgba(26,86,219,.4);transform:translateY(-2px)}
+.mock-card-num{
+  font-family:'DM Serif Display',serif;
+  font-size:1.8rem;color:#fff;line-height:1;
+}
+.mock-card-label{font-size:.7rem;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.05em}
+
+/* ── MOCK TABLE — identique site ── */
+.mock-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.mock-table th{
+  text-align:left;padding:.55rem .85rem;
+  color:var(--muted);border-bottom:1px solid var(--card-border);
+  font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;
+}
+.mock-table td{
+  padding:.7rem .85rem;
+  color:var(--text);
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.mock-table tr:last-child td{border-bottom:none}
+.mock-table tr:hover td{background:rgba(255,255,255,.02)}
+
+/* ── ACTORS — identiques site ── */
+.actors-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1.25rem;margin-bottom:1.5rem;
+}
+.actor-card{
+  background:var(--card);border:1px solid var(--card-border);
+  border-radius:var(--radius);padding:1.5rem 1.25rem;
+  transition:border-color .3s,transform .3s;cursor:default;
+}
+.actor-card:hover{border-color:rgba(26,86,219,.5);transform:translateY(-4px)}
+.actor-icon{
+  width:52px;height:52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;margin-bottom:1rem;
+}
+.actor-card:nth-child(1) .actor-icon{background:rgba(26,86,219,.2)}
+.actor-card:nth-child(2) .actor-icon{background:rgba(0,229,176,.15)}
+.actor-card:nth-child(3) .actor-icon{background:rgba(245,158,11,.15)}
+.actor-card:nth-child(4) .actor-icon{background:rgba(239,68,68,.15)}
+.actor-card h3{font-size:.95rem;font-weight:600;color:#fff;margin-bottom:.5rem}
+.actor-card p{font-size:.82rem;color:var(--muted);line-height:1.6}
+
+/* ── FEATURES — identiques site ── */
+.feature-item{
+  display:flex;gap:1rem;padding:1.1rem;
+  background:var(--card);border:1px solid var(--card-border);
+  border-radius:12px;transition:border-color .3s;margin-bottom:.85rem;
+}
+.feature-item:hover{border-color:rgba(26,86,219,.4)}
+.feature-dot{
+  width:36px;height:36px;flex-shrink:0;border-radius:10px;
+  background:linear-gradient(135deg,var(--blue),var(--accent));
+  display:flex;align-items:center;justify-content:center;font-size:1rem;
+}
+.feature-item h4{font-size:.88rem;font-weight:600;color:#fff;margin-bottom:.25rem}
+.feature-item p{font-size:.78rem;color:var(--muted)}
+
+/* ── GANTT — identique site ── */
+.gantt-wrap{
+  background:var(--card);border:1px solid var(--card-border);
+  border-radius:var(--radius);overflow:hidden;margin-bottom:1.5rem;
+}
+.gantt-header{
+  display:grid;grid-template-columns:200px repeat(8,1fr);
+  padding:.85rem 1.25rem;
+  background:rgba(26,86,219,.12);
+  font-size:.72rem;font-weight:600;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.08em;
+  border-bottom:1px solid var(--card-border);
+}
+.gantt-row{
+  display:grid;grid-template-columns:200px repeat(8,1fr);
+  padding:.7rem 1.25rem;align-items:center;
+  border-bottom:1px solid var(--card-border);
+  transition:background .2s;min-height:50px;
+}
+.gantt-row:last-child{border-bottom:none}
+.gantt-row:hover{background:rgba(255,255,255,.02)}
+.gantt-label{font-size:.82rem;color:var(--text);font-weight:500}
+.gantt-bar{
+  height:24px;border-radius:6px;
+  display:flex;align-items:center;padding:0 8px;
+  font-size:.68rem;font-weight:600;color:#fff;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  grid-column-start:var(--cs);grid-column-end:span var(--span);
+}
+.bar-blue{background:linear-gradient(90deg,var(--blue),var(--blue-light))}
+.bar-teal{background:linear-gradient(90deg,#0d9488,var(--accent))}
+.bar-amber{background:linear-gradient(90deg,#d97706,#f59e0b)}
+.bar-purple{background:linear-gradient(90deg,#7c3aed,#a78bfa)}
+
+/* ── TECH GRID — identique site ── */
+.tech-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:1rem;margin-bottom:1.5rem;
+}
+.tech-card{
+  background:var(--card);border:1px solid var(--card-border);
+  border-radius:14px;padding:1.25rem 1rem;text-align:center;
+  transition:border-color .3s,transform .3s;
+}
+.tech-card:hover{border-color:rgba(0,229,176,.35);transform:translateY(-3px)}
+.tech-logo{font-size:1.8rem;margin-bottom:.6rem;display:block}
+.tech-card h4{font-size:.85rem;font-weight:600;color:#fff;margin-bottom:.25rem}
+.tech-card p{font-size:.75rem;color:var(--muted)}
+
+/* ── PLANNING EMPLOI DU TEMPS ─ */
+.edt-grid{
+  border:1px solid var(--card-border);border-radius:var(--radius);
+  overflow:hidden;background:var(--card);
+}
+.edt-head{
+  display:grid;grid-template-columns:88px repeat(5,1fr);
+  background:rgba(26,86,219,.12);border-bottom:1px solid var(--card-border);
+}
+.edt-head-cell{
+  padding:10px 8px;font-size:.68rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--muted);
+  text-align:center;border-right:1px solid var(--card-border);
+}
+.edt-head-cell:last-child{border-right:none}
+.edt-row{
+  display:grid;grid-template-columns:88px repeat(5,1fr);
+  border-bottom:1px solid var(--card-border);min-height:70px;
+}
+.edt-row:last-child{border-bottom:none}
+.edt-time{
+  padding:6px;font-size:.65rem;color:var(--muted);text-align:center;
+  border-right:1px solid var(--card-border);
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(26,86,219,.06);line-height:1.4;
+}
+.edt-cell{
+  border-right:1px solid var(--card-border);padding:5px;
+  cursor:pointer;transition:background .15s;
+}
+.edt-cell:last-child{border-right:none}
+.edt-cell:hover{background:rgba(26,86,219,.06)}
+.lesson{
+  border-radius:8px;padding:6px 8px;height:100%;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.lesson.blue{background:linear-gradient(135deg,rgba(26,86,219,.2),rgba(59,130,246,.12));border:1px solid rgba(26,86,219,.3)}
+.lesson.teal{background:rgba(0,229,176,.08);border:1px solid rgba(0,229,176,.2)}
+.lesson.amber{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2)}
+.lesson.purple{background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.22)}
+.lesson-name{font-size:.7rem;font-weight:700;color:#fff;line-height:1.3}
+.lesson-room{font-size:.62rem;color:var(--muted);margin-top:2px}
+.lesson-del{
+  font-size:.58rem;margin-top:3px;background:rgba(239,68,68,.15);
+  border:none;border-radius:4px;padding:2px 6px;color:#f87171;
+  cursor:pointer;font-family:'Sora',sans-serif;width:fit-content;
+}
+
+/* ── ENTRY CARDS — cahier ─── */
+.entry-card{
+  background:var(--card);border:1px solid var(--card-border);
+  border-radius:12px;padding:1rem 1.25rem;margin-bottom:.85rem;
+  transition:border-color .25s,transform .2s;
+}
+.entry-card:hover{border-color:rgba(26,86,219,.35);transform:translateY(-1px)}
+
+/* ── MODAL — identique site ── */
+.modal-overlay{
+  position:fixed;inset:0;
+  background:rgba(5,12,28,.88);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  z-index:100;padding:1.5rem;
+}
+.modal-box{
+  background:#0e1f3d;
+  border:1px solid rgba(26,86,219,.25);
+  border-radius:20px;padding:2rem;
+  width:100%;max-width:560px;max-height:88vh;overflow-y:auto;
+  position:relative;animation:popIn .25s ease;
+}
+.modal-box-wide{max-width:720px}
+@keyframes popIn{
+  from{opacity:0;transform:scale(.94) translateY(20px)}
+  to{opacity:1;transform:scale(1) translateY(0)}
+}
+.modal-close{
+  position:absolute;top:1.2rem;right:1.4rem;
+  background:rgba(255,255,255,.07);border:none;color:var(--muted);
+  width:30px;height:30px;border-radius:50%;font-size:.9rem;cursor:pointer;
+  transition:background .2s;
+}
+.modal-close:hover{background:rgba(255,255,255,.15);color:#fff}
+.modal-header{text-align:center;margin-bottom:1.5rem}
+.modal-icon{font-size:2rem;display:block;margin-bottom:.5rem}
+.modal-header h3{font-size:1.2rem;color:#fff;font-weight:600;margin-bottom:.4rem}
+.modal-header p{font-size:.85rem;color:var(--muted)}
+
+/* ── FORM — identique site ── */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-size:.72rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.form-group input,
+.form-group select,
+.form-group textarea{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;padding:.65rem 1rem;
+  color:#fff;font-family:'Sora',sans-serif;font-size:.88rem;
+  transition:border-color .2s;outline:none;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{border-color:var(--blue-light)}
+.form-group select option{background:#0e1f3d}
+.form-group textarea{resize:vertical;min-height:80px;line-height:1.6}
+.form-group input::placeholder,
+.form-group textarea::placeholder{color:var(--muted);opacity:.7}
+.btn-submit{
+  width:100%;padding:.85rem;
+  background:linear-gradient(135deg,var(--blue),var(--blue-light));
+  border:none;border-radius:12px;color:#fff;
+  font-family:'Sora',sans-serif;font-size:.95rem;font-weight:600;
+  cursor:pointer;transition:opacity .2s;
+}
+.btn-submit:hover{opacity:.88}
+
+/* ── DOC TABS — identiques site ── */
+.doc-tabs{
+  display:flex;gap:.5rem;flex-wrap:wrap;
+  margin-bottom:1.5rem;border-bottom:1px solid rgba(255,255,255,.08);
+  padding-bottom:.75rem;
+}
+.doc-tab{
+  background:transparent;border:1px solid rgba(255,255,255,.1);
+  border-radius:8px;color:var(--muted);
+  font-family:'Sora',sans-serif;font-size:.78rem;font-weight:600;
+  padding:.4rem 1rem;cursor:pointer;transition:all .2s;
+}
+.doc-tab.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.doc-tab:hover:not(.active){border-color:rgba(255,255,255,.3);color:#fff}
+
+/* ── ARCH DIAGRAM — identique site ── */
+.arch-diagram{
+  display:flex;align-items:center;justify-content:center;
+  gap:.75rem;margin:1rem 0 1.5rem;flex-wrap:wrap;
+}
+.arch-block{
+  background:rgba(26,86,219,.15);border:1px solid rgba(26,86,219,.3);
+  border-radius:12px;padding:.75rem 1.25rem;text-align:center;
+  font-size:.85rem;font-weight:600;color:#fff;line-height:1.4;
+}
+.arch-block small{display:block;color:var(--muted);font-size:.72rem;font-weight:400}
+.arch-arrow{color:var(--accent);font-size:1.4rem}
+
+/* ── DOC CARDS ── */
+.doc-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1.5rem}
+.doc-card{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;padding:1rem;
+}
+.doc-card-icon{font-size:1.4rem;display:block;margin-bottom:.5rem}
+.doc-card strong{font-size:.82rem;color:#fff;display:block;margin-bottom:.35rem}
+.doc-card p{font-size:.75rem;color:var(--muted);margin:0}
+
+/* ── DOC LIST ── */
+.doc-list{list-style:none;padding:0;margin-bottom:1.25rem}
+.doc-list li{
+  padding:.5rem .75rem;border-left:3px solid var(--blue);
+  margin-bottom:.45rem;background:rgba(26,86,219,.08);
+  border-radius:0 8px 8px 0;font-size:.85rem;color:var(--text);
+}
+
+/* ── STEPS ── */
+.step-list{display:flex;flex-direction:column;gap:.65rem}
+.step{
+  display:flex;gap:1rem;align-items:flex-start;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;padding:.9rem;
+}
+.step-num{
+  min-width:28px;height:28px;background:var(--blue);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;font-weight:700;color:#fff;
+}
+.step strong{display:block;font-size:.85rem;color:#fff;margin-bottom:.35rem}
+.code-block{
+  background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.08);
+  border-radius:8px;padding:.45rem .75rem;
+  font-family:monospace;font-size:.75rem;color:var(--accent);line-height:1.7;
+  margin-top:.3rem;white-space:pre;
+}
+
+/* ── DOC TABLE ── */
+.doc-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-bottom:1rem}
+.doc-table th{
+  text-align:left;padding:.6rem .75rem;color:var(--muted);
+  border-bottom:1px solid rgba(255,255,255,.1);
+  font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;
+}
+.doc-table td{padding:.65rem .75rem;border-bottom:1px solid rgba(255,255,255,.05);color:var(--text)}
+.doc-table .yes{color:var(--accent);font-weight:600}
+.doc-table .no{color:#ef4444}
+
+/* ── ENDPOINT LIST — identique site ── */
+.endpoint-list{display:flex;flex-direction:column;gap:.6rem}
+.endpoint{
+  display:flex;align-items:center;gap:.75rem;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  border-radius:10px;padding:.7rem 1rem;flex-wrap:wrap;
+}
+.method{font-size:.7rem;font-weight:700;padding:3px 8px;border-radius:6px;min-width:58px;text-align:center}
+.get{background:rgba(0,229,176,.15);color:var(--accent)}
+.post{background:rgba(26,86,219,.2);color:#60a5fa}
+.put{background:rgba(245,158,11,.15);color:#f59e0b}
+.del{background:rgba(239,68,68,.15);color:#f87171}
+.route{font-family:monospace;font-size:.85rem;color:#fff;flex:1}
+.ep-desc{font-size:.78rem;color:var(--muted)}
+
+/* ── AI CHAT ── */
+.ai-wrap{height:calc(100vh - 110px);display:flex;flex-direction:column}
+.ai-chips{
+  padding:10px 14px;display:flex;flex-wrap:wrap;gap:6px;
+  border-bottom:1px solid var(--card-border);
+}
+.ai-chip{
+  background:rgba(255,255,255,.04);border:1px solid var(--card-border);
+  border-radius:100px;padding:5px 13px;font-size:.72rem;
+  color:var(--muted);cursor:pointer;transition:all .2s;
+  font-family:'Sora',sans-serif;font-weight:500;
+}
+.ai-chip:hover{border-color:rgba(0,229,176,.4);color:var(--accent);background:rgba(0,229,176,.05)}
+.ai-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}
+.ai-messages::-webkit-scrollbar{width:3px}
+.ai-messages::-webkit-scrollbar-thumb{background:var(--card-border)}
+.ai-msg{display:flex;gap:10px}
+.ai-msg.user{flex-direction:row-reverse}
+.msg-av{
+  width:30px;height:30px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;
+}
+.msg-av.ai{background:linear-gradient(135deg,var(--blue),var(--accent));color:#fff}
+.msg-av.me{background:rgba(255,255,255,.08);color:var(--muted)}
+.msg-bubble{
+  background:var(--card);border:1px solid var(--card-border);
+  border-radius:12px;padding:10px 14px;font-size:.82rem;
+  line-height:1.7;color:var(--text);max-width:76%;white-space:pre-wrap;
+}
+.ai-msg.user .msg-bubble{
+  background:rgba(26,86,219,.12);border-color:rgba(26,86,219,.25);
+}
+.ai-input-row{
+  padding:12px;border-top:1px solid var(--card-border);
+  display:flex;gap:10px;align-items:flex-end;
+}
+.ai-input{
+  flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;padding:.65rem 1rem;color:#fff;
+  font-family:'Sora',sans-serif;font-size:.82rem;
+  resize:none;min-height:40px;max-height:100px;outline:none;
+}
+.ai-input:focus{border-color:var(--blue-light)}
+.ai-input::placeholder{color:var(--muted)}
+
+/* ── PROGRESS ── */
+.progress-bar{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-top:6px}
+.progress-fill{height:100%;border-radius:2px;transition:width .4s}
+.fill-blue{background:linear-gradient(90deg,var(--blue),var(--blue-light))}
+.fill-teal{background:linear-gradient(90deg,#0d9488,var(--accent))}
+.fill-amber{background:linear-gradient(90deg,#d97706,#f59e0b)}
+.fill-purple{background:linear-gradient(90deg,#7c3aed,#a78bfa)}
+
+/* ── TAB BAR (filtres) ── */
+.tab-bar{
+  display:flex;gap:4px;background:rgba(255,255,255,.04);
+  border:1px solid var(--card-border);border-radius:9px;padding:3px;
+}
+.tab-btn{
+  padding:5px 13px;border-radius:7px;font-size:.75rem;font-weight:600;
+  cursor:pointer;border:none;background:none;color:var(--muted);
+  font-family:'Sora',sans-serif;transition:all .2s;
+}
+.tab-btn.active{background:rgba(26,86,219,.25);color:#fff;border:1px solid rgba(26,86,219,.35)}
+
+/* ── GRID LAYOUTS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.g-auto{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1rem}
+
+/* ── MISC ── */
+.flex{display:flex}.items-c{align-items:center}.jbet{justify-content:space-between}
+.flex-1{flex:1}.gap-8{gap:8px}.gap-12{gap:12px}.gap-16{gap:16px}
+.muted{color:var(--muted)}.fw6{font-weight:600}.text-sm{font-size:.82rem}.text-xs{font-size:.72rem}
+.mt8{margin-top:8px}.mt16{margin-top:16px}.mb8{margin-bottom:8px}.mb16{margin-bottom:16px}
+.empty-state{text-align:center;padding:3rem 1rem;color:var(--muted)}
+.empty-icon{font-size:2.5rem;display:block;margin-bottom:.75rem}
+.divider{height:1px;background:var(--card-border);margin:1rem 0}
+.hero-badge-txt{color:var(--accent);font-size:.88rem}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const {useState,useRef,useEffect}=React;
+
+/* ════════════════════════════════
+   DONNÉES
+════════════════════════════════ */
+const MATIERES_INIT=[
+  {id:1,nom:"Mathématiques",code:"MATH",couleur:"blue",enseignant:"M. Diallo",classe:"T·S1",prog:74},
+  {id:2,nom:"Français",code:"FR",couleur:"teal",enseignant:"Mme Sow",classe:"1ère·A",prog:58},
+  {id:3,nom:"Sciences SVT",code:"SVT",couleur:"amber",enseignant:"M. Ndiaye",classe:"3ème·B",prog:45},
+  {id:4,nom:"Histoire-Géo",code:"HG",couleur:"purple",enseignant:"Mme Fall",classe:"6ème·A",prog:62},
+];
+
+const ENTRIES_INIT=[
+  {id:1,date:"2025-04-06",mat:1,titre:"Algèbre linéaire",type:"Cours",desc:"Introduction aux systèmes d'équations, méthode de Gauss et matrices échelonnées.",duree:55,comps:"Calculer, Raisonner",devoirs:"Ex. 1–5 p.42",statut:"validé"},
+  {id:2,date:"2025-04-05",mat:1,titre:"Fonctions dérivées",type:"Cours",desc:"Règles de dérivation : somme, produit, quotient et composée. Applications pratiques.",duree:55,comps:"Calculer, Analyser",devoirs:"Fiche exercices",statut:"validé"},
+  {id:3,date:"2025-04-07",mat:2,titre:"Statistiques",type:"Cours",desc:"Moyenne, médiane, mode, écart-type. Histogrammes et boîtes à moustaches.",duree:50,comps:"Analyser, Calculer",devoirs:"Lire p.56–58",statut:"en_cours"},
+  {id:4,date:"2025-04-07",mat:3,titre:"Géométrie euclidienne",type:"Cours",desc:"Triangles semblables, théorème de Thalès, applications en géométrie plane.",duree:50,comps:"Démontrer",devoirs:"",statut:"a_faire"},
+  {id:5,date:"2025-04-08",mat:2,titre:"La phrase complexe",type:"Cours",desc:"Propositions subordonnées relatives et conjonctives. Analyse syntaxique.",duree:50,comps:"Analyser, S'exprimer",devoirs:"Rédaction p.44",statut:"validé"},
+  {id:6,date:"2025-04-10",mat:4,titre:"La colonisation africaine",type:"Cours",desc:"Conférence de Berlin (1885), motivations et résistances africaines au XIXe.",duree:50,comps:"Mémoriser, Analyser",devoirs:"Lire p.60–62",statut:"en_cours"},
+];
+
+const PLANNING_INIT=[
+  {id:1,matId:1,jour:0,h:0,salle:"Salle 12"},
+  {id:2,matId:2,jour:1,h:1,salle:"Salle 8"},
+  {id:3,matId:3,jour:2,h:2,salle:"Labo 1"},
+  {id:4,matId:4,jour:3,h:0,salle:"Salle 5"},
+  {id:5,matId:1,jour:4,h:1,salle:"Salle 12"},
+  {id:6,matId:2,jour:2,h:0,salle:"Salle 8"},
+];
+
+const JOURS=["Lundi","Mardi","Mercredi","Jeudi","Vendredi"];
+const HORAIRES=["08h–09h","09h–10h","10h15–11h15","14h–15h","15h–16h"];
+const TYPES=["Cours","TP","Évaluation","Révision","Correction","Activité"];
+const CLASSES=["6ème A","5ème A","4ème A","3ème B","2nde A","1ère A","T·S1","T·S2","T·L"];
+
+/* ── helpers ── */
+const fmtDate=d=>{if(!d)return"";const[y,m,j]=d.split("-");const mo=["jan","fév","mar","avr","mai","jun","jul","aoû","sep","oct","nov","déc"];return`${j} ${mo[+m-1]} ${y}`};
+const statBadge=s=>({validé:"badge-ok",en_cours:"badge-pending",a_faire:"badge-miss"}[s]||"badge-miss");
+const statLabel=s=>({validé:"Saisi",en_cours:"En cours",a_faire:"À faire"}[s]||s);
+const coulFill=c=>({blue:"fill-blue",teal:"fill-teal",amber:"fill-amber",purple:"fill-purple"}[c]||"fill-blue");
+const lessonCls=c=>({blue:"blue",teal:"teal",amber:"amber",purple:"purple"}[c]||"blue");
+
+/* ════════════════════════════════
+   PARTIE 1 — ACTEURS & DASHBOARD
+   (section "Qui utilise" du site)
+════════════════════════════════ */
+function PartieActeurs({entries,matieres}){
+  const valides=entries.filter(e=>e.statut==="validé").length;
+  const encours=entries.filter(e=>e.statut==="en_cours").length;
+  const afaire=entries.filter(e=>e.statut==="a_faire").length;
+  const totalMin=entries.reduce((s,e)=>s+Number(e.duree||0),0);
+
+  return(
+    <div>
+      {/* Hero badge */}
+      <div className="flex items-c gap-8 mb16">
+        <span className="badge-hero">✦ Année scolaire 2025–2026</span>
+      </div>
+      <div className="section-tag">Qui utilise CahierSmart ?</div>
+      <h2 className="section-title">Une plateforme,<br/>quatre acteurs clés</h2>
+      <p className="section-sub">Chaque utilisateur dispose d'un espace personnalisé adapté à ses besoins et permissions.</p>
+
+      {/* Acteurs — identiques au site */}
+      <div className="actors-grid" style={{marginBottom:"1.5rem"}}>
+        {[
+          {ico:"👨‍🏫",titre:"Enseignant",desc:"Saisit les cours, objectifs pédagogiques, devoirs et évaluations directement depuis son espace."},
+          {ico:"🎓",titre:"Élève",desc:"Consulte son programme, ses devoirs, ses notes et son historique de cours en temps réel."},
+          {ico:"👨‍👩‍👧",titre:"Parent",desc:"Suit la scolarité de son enfant, reçoit des alertes et communique avec les enseignants."},
+          {ico:"🏫",titre:"Administrateur",desc:"Gère les emplois du temps, les classes, les utilisateurs et génère des rapports analytiques."},
+        ].map((a,i)=>(
+          <div key={i} className="actor-card">
+            <div className="actor-icon">{a.ico}</div>
+            <h3>{a.titre}</h3>
+            <p>{a.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Mock dashboard — identique au site (mais avec vraies données) */}
+      <div className="section-tag">Tableau de bord</div>
+      <div className="mock-cards">
+        <div className="mock-card">
+          <div className="mock-card-num">{entries.length}</div>
+          <div className="mock-card-label">Cours saisis</div>
+        </div>
+        <div className="mock-card" style={{background:"rgba(0,229,176,.08)",borderColor:"rgba(0,229,176,.2)"}}>
+          <div className="mock-card-num" style={{color:"var(--accent)"}}>{valides}</div>
+          <div className="mock-card-label">Validés</div>
+        </div>
+        <div className="mock-card" style={{background:"rgba(245,158,11,.08)",borderColor:"rgba(245,158,11,.2)"}}>
+          <div className="mock-card-num" style={{color:"var(--accent2)"}}>{encours+afaire}</div>
+          <div className="mock-card-label">En attente</div>
+        </div>
+        <div className="mock-card" style={{background:"rgba(124,58,237,.1)",borderColor:"rgba(124,58,237,.2)"}}>
+          <div className="mock-card-num" style={{color:"#a78bfa"}}>{Math.round(totalMin/60)}h</div>
+          <div className="mock-card-label">Enseignées</div>
+        </div>
+      </div>
+
+      <div className="card">
+        <table className="mock-table">
+          <thead>
+            <tr><th>Séance</th><th>Matière</th><th>Classe</th><th>Date</th><th>Statut</th></tr>
+          </thead>
+          <tbody>
+            {entries.slice().reverse().slice(0,6).map(e=>{
+              const mat=matieres.find(m=>m.id===e.mat);
+              return(
+                <tr key={e.id}>
+                  <td>{e.titre}</td>
+                  <td><span className={`badge ${mat?.couleur==="teal"?"badge-ok":mat?.couleur==="amber"?"badge-pending":mat?.couleur==="purple"?"badge-purple":"badge-blue"}`}>{mat?.code}</span></td>
+                  <td>{mat?.classe}</td>
+                  <td>{fmtDate(e.date)}</td>
+                  <td><span className={`badge ${statBadge(e.statut)}`}>{statLabel(e.statut)}</span></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Progression par matière */}
+      <div className="mt16">
+        <div className="section-tag">Progression du programme</div>
+        <div className="g2">
+          {matieres.map(m=>(
+            <div key={m.id} className="card">
+              <div className="flex jbet items-c mb8">
+                <span className="fw6" style={{fontSize:".88rem"}}>{m.nom}</span>
+                <span className="text-xs muted">{m.prog}%</span>
+              </div>
+              <div style={{fontSize:".75rem",color:"var(--muted)",marginBottom:6}}>{m.enseignant} · {m.classe}</div>
+              <div className="progress-bar"><div className={`progress-fill ${coulFill(m.couleur)}`} style={{width:`${m.prog}%`}}/></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ════════════════════════════════
+   PARTIE 2 — CAHIER DE TEXTES
+   (section "Fonctionnalités" du site)
+════════════════════════════════ */
+function PartieCahier({entries,setEntries,matieres,setMatieres}){
+  const [modal,setModal]=useState(false);
+  const [modalMat,setModalMat]=useState(false);
+  const [editing,setEditing]=useState(null);
+  const [editingMat,setEditingMat]=useState(null);
+  const [filt,setFilt]=useState("all");
+  const [filtMat,setFiltMat]=useState("all");
+  const [tab,setTab]=useState("entries"); // entries | matieres
+
+  const E0={date:"",mat:"",titre:"",type:"Cours",desc:"",duree:55,comps:"",devoirs:"",statut:"a_faire"};
+  const [form,setForm]=useState(E0);
+  const fs=f=>setForm(p=>({...p,...f}));
+
+  const M0={nom:"",code:"",couleur:"blue",enseignant:"",classe:CLASSES[0],prog:0};
+  const [mform,setMform]=useState(M0);
+  const mfs=f=>setMform(p=>({...p,...f}));
+
+  const visible=entries.filter(e=>{
+    if(filt!=="all"&&e.statut!==filt)return false;
+    if(filtMat!=="all"&&String(e.mat)!==filtMat)return false;
+    return true;
+  });
+
+  const openNew=()=>{setForm({...E0,date:new Date().toISOString().split("T")[0],mat:String(matieres[0]?.id||"")});setEditing(null);setModal(true)};
+  const openEdit=e=>{setForm({...e,mat:String(e.mat)});setEditing(e.id);setModal(true)};
+  const save=()=>{
+    if(!form.titre||!form.date)return;
+    const e={...form,mat:Number(form.mat),duree:Number(form.duree),id:editing||Date.now()};
+    if(editing)setEntries(p=>p.map(x=>x.id===editing?e:x));
+    else setEntries(p=>[...p,e]);
+    setModal(false);
+  };
+  const del=id=>setEntries(p=>p.filter(e=>e.id!==id));
+  const validate=id=>setEntries(p=>p.map(e=>e.id===id?{...e,statut:"validé"}:e));
+
+  const openNewMat=()=>{setMform(M0);setEditingMat(null);setModalMat(true)};
+  const openEditMat=m=>{setMform({...m,prog:String(m.prog)});setEditingMat(m.id);setModalMat(true)};
+  const saveMat=()=>{
+    if(!mform.nom)return;
+    const m={...mform,prog:Number(mform.prog),id:editingMat||Date.now()};
+    if(editingMat)setMatieres(p=>p.map(x=>x.id===editingMat?m:x));
+    else setMatieres(p=>[...p,m]);
+    setModalMat(false);
+  };
+  const delMat=id=>setMatieres(p=>p.filter(m=>m.id!==id));
+
+  const matBadgeCls=c=>({teal:"badge-ok",amber:"badge-pending",purple:"badge-purple",blue:"badge-blue"}[c]||"badge-blue");
+
+  return(
+    <div>
+      <div className="section-tag">Ce que nous offrons</div>
+      <h2 className="section-title">Fonctionnalités<br/>intelligentes</h2>
+
+      {/* Features bar — identique site */}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"1rem",marginBottom:"1.5rem"}}>
+        <div>
+          {[
+            {ico:"📝",t:"Saisie structurée des cours",p:"Titre, objectifs, contenu, documents joints et compétences ciblées."},
+            {ico:"🔔",t:"Alertes & notifications",p:"Rappels automatiques pour les devoirs, évaluations et absences."},
+            {ico:"📊",t:"Tableaux de bord analytiques",p:"Statistiques de progression et indicateurs pédagogiques par classe."},
+          ].map(f=>(
+            <div key={f.t} className="feature-item">
+              <div className="feature-dot">{f.ico}</div>
+              <div><h4>{f.t}</h4><p>{f.p}</p></div>
+            </div>
+          ))}
+        </div>
+        <div>
+          {[
+            {ico:"📅",t:"Calendrier pédagogique",p:"Vue hebdomadaire et mensuelle synchronisée avec l'emploi du temps."},
+            {ico:"🔐",t:"Gestion des rôles & accès",p:"Permissions granulaires par profil — aucune donnée sans autorisation."},
+            {ico:"🤖",t:"Assistant IA intégré",p:"Génération automatique de séances, objectifs et évaluations par l'IA."},
+          ].map(f=>(
+            <div key={f.t} className="feature-item">
+              <div className="feature-dot">{f.ico}</div>
+              <div><h4>{f.t}</h4><p>{f.p}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Onglets Séances / Matières */}
+      <div className="flex jbet items-c mb16">
+        <div className="tab-bar">
+          {[["entries","Séances"],["matieres","Matières"]].map(([v,l])=>(
+            <button key={v} className={`tab-btn${tab===v?" active":""}`} onClick={()=>setTab(v)}>{l}</button>
+          ))}
+        </div>
+        <div className="flex gap-8">
+          {tab==="entries"&&<>
+            <div className="tab-bar">
+              {[["all","Tous"],["validé","Saisis"],["en_cours","En cours"],["a_faire","À faire"]].map(([v,l])=>(
+                <button key={v} className={`tab-btn${filt===v?" active":""}`} onClick={()=>setFilt(v)}>{l}</button>
+              ))}
+            </div>
+            <select className="form-group" style={{}} onChange={e=>setFiltMat(e.target.value)} value={filtMat}>
+              <option value="all">Toutes</option>
+              {matieres.map(m=><option key={m.id} value={String(m.id)}>{m.nom}</option>)}
+            </select>
+            <button className="btn btn-primary btn-sm" onClick={openNew}>+ Nouvelle séance</button>
+          </>}
+          {tab==="matieres"&&<button className="btn btn-primary btn-sm" onClick={openNewMat}>+ Nouvelle matière</button>}
+        </div>
+      </div>
+
+      {tab==="entries"&&(
+        visible.length===0
+        ?<div className="empty-state"><span className="empty-icon">📓</span><div>Aucune séance trouvée</div></div>
+        :visible.map(e=>{
+          const mat=matieres.find(m=>m.id===e.mat);
+          return(
+            <div key={e.id} className="entry-card">
+              <div className="flex jbet items-c mb8">
+                <div className="flex gap-8 items-c">
+                  <span className={`badge ${matBadgeCls(mat?.couleur)}`}>{mat?.code}</span>
+                  <span className={`badge ${statBadge(e.statut)}`}>{statLabel(e.statut)}</span>
+                  <span className="badge" style={{background:"rgba(255,255,255,.06)",color:"var(--muted)",border:"1px solid var(--card-border)"}}>{e.type}</span>
+                </div>
+                <div className="flex gap-8 items-c">
+                  <span className="text-xs muted">{fmtDate(e.date)} · {e.duree} min</span>
+                  {e.statut!=="validé"&&<button className="btn btn-accent btn-sm" onClick={()=>validate(e.id)}>✓ Valider</button>}
+                  <button className="btn btn-secondary btn-sm" onClick={()=>openEdit(e)}>✎</button>
+                  <button className="btn btn-danger btn-sm" onClick={()=>del(e.id)}>✕</button>
+                </div>
+              </div>
+              <div className="fw6" style={{fontSize:".9rem",color:"#fff",marginBottom:"4px"}}>{e.titre}</div>
+              <div className="text-sm muted" style={{lineHeight:1.7,marginBottom:e.devoirs?8:0}}>{e.desc}</div>
+              {e.devoirs&&<div className="flex gap-8 items-c mt8">
+                <span style={{fontSize:".68rem",background:"rgba(26,86,219,.12)",color:"#60a5fa",borderRadius:5,padding:"2px 8px",border:"1px solid rgba(26,86,219,.2)"}}>Devoirs</span>
+                <span className="text-xs muted">{e.devoirs}</span>
+              </div>}
+            </div>
+          );
+        })
+      )}
+
+      {tab==="matieres"&&(
+        <div className="g2">
+          {matieres.map(m=>{
+            const seances=entries.filter(e=>e.mat===m.id).length;
+            const vals=entries.filter(e=>e.mat===m.id&&e.statut==="validé").length;
+            const cc={blue:{c:"#60a5fa",bg:"rgba(26,86,219,.12)",br:"rgba(26,86,219,.3)"},teal:{c:"var(--accent)",bg:"rgba(0,229,176,.08)",br:"rgba(0,229,176,.2)"},amber:{c:"var(--accent2)",bg:"rgba(245,158,11,.08)",br:"rgba(245,158,11,.2)"},purple:{c:"#a78bfa",bg:"rgba(124,58,237,.1)",br:"rgba(124,58,237,.22)"}}[m.couleur]||{c:"#60a5fa",bg:"rgba(26,86,219,.12)",br:"rgba(26,86,219,.3)"};
+            return(
+              <div key={m.id} className="card" style={{borderTop:`3px solid ${cc.c}`}}>
+                <div className="flex jbet items-c mb8">
+                  <div>
+                    <div style={{fontFamily:"'DM Serif Display',serif",fontSize:"1rem",color:"#fff"}}>{m.nom}</div>
+                    <div className="text-xs muted">{m.enseignant} · {m.classe}</div>
+                  </div>
+                  <div className="flex gap-8">
+                    <button className="btn btn-secondary btn-sm" onClick={()=>openEditMat(m)}>✎</button>
+                    <button className="btn btn-danger btn-sm" onClick={()=>delMat(m.id)}>✕</button>
+                  </div>
+                </div>
+                <div className="g3" style={{gap:8,marginBottom:12}}>
+                  {[[seances,"séances"],[vals,"validées"],[`${m.prog}%`,"programme"]].map(([v,l])=>(
+                    <div key={l} style={{background:cc.bg,border:`1px solid ${cc.br}`,borderRadius:10,padding:"8px",textAlign:"center"}}>
+                      <div style={{fontFamily:"'DM Serif Display',serif",fontSize:"1.3rem",color:cc.c}}>{v}</div>
+                      <div className="text-xs muted">{l}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="progress-bar"><div className={`progress-fill ${coulFill(m.couleur)}`} style={{width:`${m.prog}%`}}/></div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Modal séance */}
+      {modal&&<div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&setModal(false)}>
+        <div className="modal-box">
+          <button className="modal-close" onClick={()=>setModal(false)}>✕</button>
+          <div className="modal-header">
+            <span className="modal-icon">{editing?"✏️":"📝"}</span>
+            <h3>{editing?"Modifier la séance":"Nouvelle séance"}</h3>
+            <p>Remplissez les informations de la séance pédagogique.</p>
+          </div>
+          <div className="form-grid">
+            <div className="form-group"><label>Date</label><input type="date" value={form.date} onChange={e=>fs({date:e.target.value})}/></div>
+            <div className="form-group"><label>Matière</label>
+              <select value={String(form.mat)} onChange={e=>fs({mat:e.target.value})}>
+                {matieres.map(m=><option key={m.id} value={String(m.id)}>{m.nom}</option>)}
+              </select>
+            </div>
+            <div className="form-group full"><label>Titre de la séance</label><input placeholder="Ex : Les équations du 1er degré" value={form.titre} onChange={e=>fs({titre:e.target.value})}/></div>
+            <div className="form-group"><label>Type</label>
+              <select value={form.type} onChange={e=>fs({type:e.target.value})}>
+                {TYPES.map(t=><option key={t}>{t}</option>)}
+              </select>
+            </div>
+            <div className="form-group"><label>Durée (min)</label><input type="number" min="10" max="180" step="5" value={form.duree} onChange={e=>fs({duree:e.target.value})}/></div>
+            <div className="form-group full"><label>Contenu abordé</label><textarea rows="3" placeholder="Résumé du contenu de la séance..." value={form.desc} onChange={e=>fs({desc:e.target.value})}/></div>
+            <div className="form-group"><label>Compétences visées</label><input placeholder="Ex : Calculer, Analyser" value={form.comps} onChange={e=>fs({comps:e.target.value})}/></div>
+            <div className="form-group"><label>Devoirs</label><input placeholder="Ex : Ex. 1–5 p. 32" value={form.devoirs} onChange={e=>fs({devoirs:e.target.value})}/></div>
+            <div className="form-group full"><label>Statut</label>
+              <select value={form.statut} onChange={e=>fs({statut:e.target.value})}>
+                <option value="a_faire">À faire</option>
+                <option value="en_cours">En cours</option>
+                <option value="validé">Saisi / Validé</option>
+              </select>
+            </div>
+          </div>
+          <button className="btn-submit" onClick={save}>{editing?"Enregistrer les modifications →":"Créer la séance →"}</button>
+        </div>
+      </div>}
+
+      {/* Modal matière */}
+      {modalMat&&<div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&setModalMat(false)}>
+        <div className="modal-box">
+          <button className="modal-close" onClick={()=>setModalMat(false)}>✕</button>
+          <div className="modal-header">
+            <span className="modal-icon">📚</span>
+            <h3>{editingMat?"Modifier la matière":"Nouvelle matière"}</h3>
+          </div>
+          <div className="form-grid">
+            <div className="form-group"><label>Nom de la matière</label><input placeholder="Ex : Mathématiques" value={mform.nom} onChange={e=>mfs({nom:e.target.value})}/></div>
+            <div className="form-group"><label>Code abrégé</label><input placeholder="MATH" maxLength="6" value={mform.code} onChange={e=>mfs({code:e.target.value.toUpperCase()})}/></div>
+            <div className="form-group"><label>Enseignant</label><input placeholder="M. / Mme Nom" value={mform.enseignant} onChange={e=>mfs({enseignant:e.target.value})}/></div>
+            <div className="form-group"><label>Classe</label><select value={mform.classe} onChange={e=>mfs({classe:e.target.value})}>{CLASSES.map(c=><option key={c}>{c}</option>)}</select></div>
+            <div className="form-group"><label>Couleur</label>
+              <select value={mform.couleur} onChange={e=>mfs({couleur:e.target.value})}>
+                <option value="blue">Bleu</option><option value="teal">Teal</option>
+                <option value="amber">Ambre</option><option value="purple">Violet</option>
+              </select>
+            </div>
+            <div className="form-group"><label>Progression (%)</label><input type="number" min="0" max="100" value={mform.prog} onChange={e=>mfs({prog:e.target.value})}/></div>
+          </div>
+          <button className="btn-submit" onClick={saveMat}>{editingMat?"Enregistrer →":"Créer la matière →"}</button>
+        </div>
+      </div>}
+    </div>
+  );
+}
+
+/* ════════════════════════════════
+   PARTIE 3 — PLANNING
+   (section "Planification" du site)
+════════════════════════════════ */
+function PartiePlanning({planning,setPlanning,matieres}){
+  const [modal,setModal]=useState(false);
+  const [selCell,setSelCell]=useState(null);
+  const [selBlock,setSelBlock]=useState(null);
+  const [form,setForm]=useState({matId:"",salle:""});
+
+  const openCell=(j,h)=>{
+    const ex=planning.find(p=>p.jour===j&&p.h===h);
+    if(ex){setSelBlock(ex);return;}
+    setSelCell({jour:j,h});
+    setForm({matId:String(matieres[0]?.id||""),salle:""});
+    setModal(true);
+  };
+  const save=()=>{
+    if(!form.matId||!selCell)return;
+    const item={id:Date.now(),...selCell,matId:Number(form.matId),salle:form.salle};
+    setPlanning(p=>[...p,item]);setModal(false);
+  };
+  const del=id=>setPlanning(p=>p.filter(x=>x.id!==id));
+  const matCol=id=>matieres.find(m=>m.id===Number(id))?.couleur||"blue";
+
+  return(
+    <div>
+      <div className="section-tag">Planification du projet</div>
+      <h2 className="section-title">Calendrier de développement</h2>
+      <p className="section-sub">4 grandes phases sur 8 semaines, du cadrage à la mise en production.</p>
+
+      {/* GANTT — identique site */}
+      <div className="gantt-wrap">
+        <div className="gantt-header">
+          <span>Phase</span>
+          <span>S1</span><span>S2</span><span>S3</span><span>S4</span>
+          <span>S5</span><span>S6</span><span>S7</span><span>S8</span>
+        </div>
+        {[
+          {label:"📋 Planification & CDC",cs:2,span:2,cls:"bar-blue",txt:"Analyse"},
+          {label:"🎨 Site vitrine",cs:3,span:2,cls:"bar-teal",txt:"HTML/CSS"},
+          {label:"⚙️ Backend API",cs:3,span:4,cls:"bar-purple",txt:"Node.js + BDD"},
+          {label:"💻 Frontend App",cs:5,span:3,cls:"bar-blue",txt:"React / Vue"},
+          {label:"🧪 Tests & QA",cs:7,span:1,cls:"bar-amber",txt:"Tests"},
+          {label:"🚀 Déploiement",cs:8,span:1,cls:"bar-teal",txt:"Mise en prod"},
+        ].map((r,i)=>(
+          <div key={i} className="gantt-row">
+            <span className="gantt-label">{r.label}</span>
+            <div className={`gantt-bar ${r.cls}`} style={{"--cs":r.cs,"--span":r.span}}>{r.txt}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Emploi du temps interactif */}
+      <div className="section-tag">Emploi du temps</div>
+      <div className="flex jbet items-c mb8">
+        <p className="muted text-sm">Cliquez sur une cellule pour ajouter un cours</p>
+        <div className="flex gap-12 items-c">
+          {matieres.map(m=>(
+            <div key={m.id} className="flex gap-8 items-c">
+              <div style={{width:8,height:8,borderRadius:"50%",background:{blue:"var(--blue-light)",teal:"var(--accent)",amber:"var(--accent2)",purple:"#a78bfa"}[m.couleur]||"var(--blue-light)"}}/>
+              <span className="text-xs muted">{m.code}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="edt-grid">
+        <div className="edt-head">
+          <div className="edt-head-cell">Horaire</div>
+          {JOURS.map(j=><div key={j} className="edt-head-cell">{j}</div>)}
+        </div>
+        {HORAIRES.map((h,hi)=>(
+          <div key={hi} className="edt-row">
+            <div className="edt-time">{h}</div>
+            {JOURS.map((_,ji)=>{
+              const cours=planning.find(p=>p.jour===ji&&p.h===hi);
+              return(
+                <div key={ji} className="edt-cell" onClick={()=>openCell(ji,hi)}>
+                  {cours&&(()=>{
+                    const mat=matieres.find(m=>m.id===cours.matId);
+                    return(
+                      <div className={`lesson ${lessonCls(mat?.couleur)}`}>
+                        <div className="lesson-name">{mat?.nom||"Cours"}</div>
+                        <div className="lesson-room">{cours.salle}</div>
+                        <button className="lesson-del" onClick={e=>{e.stopPropagation();del(cours.id);}}>Retirer</button>
+                      </div>
+                    );
+                  })()}
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+
+      {/* Modal block existant */}
+      {selBlock&&<div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&setSelBlock(null)}>
+        <div className="modal-box" style={{maxWidth:380}}>
+          <button className="modal-close" onClick={()=>setSelBlock(null)}>✕</button>
+          <div className="modal-header">
+            <span className="modal-icon">📅</span>
+            <h3>{matieres.find(m=>m.id===selBlock.matId)?.nom||"Cours"}</h3>
+            <p>{JOURS[selBlock.jour]} · {HORAIRES[selBlock.h]} · {selBlock.salle||"Salle non définie"}</p>
+          </div>
+          <div style={{display:"flex",gap:"0.75rem",justifyContent:"center"}}>
+            <button className="btn btn-danger" onClick={()=>{del(selBlock.id);setSelBlock(null);}}>Supprimer</button>
+            <button className="btn btn-secondary" onClick={()=>setSelBlock(null)}>Fermer</button>
+          </div>
+        </div>
+      </div>}
+
+      {/* Modal ajout */}
+      {modal&&<div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&setModal(false)}>
+        <div className="modal-box" style={{maxWidth:420}}>
+          <button className="modal-close" onClick={()=>setModal(false)}>✕</button>
+          <div className="modal-header">
+            <span className="modal-icon">📅</span>
+            <h3>Ajouter un cours</h3>
+            <p>{JOURS[selCell?.jour]} · {HORAIRES[selCell?.h]}</p>
+          </div>
+          <div className="form-grid">
+            <div className="form-group full"><label>Matière</label>
+              <select value={form.matId} onChange={e=>setForm(p=>({...p,matId:e.target.value}))}>
+                {matieres.map(m=><option key={m.id} value={String(m.id)}>{m.nom}</option>)}
+              </select>
+            </div>
+            <div className="form-group full"><label>Salle</label><input placeholder="Ex : Salle 12, Labo 1" value={form.salle} onChange={e=>setForm(p=>({...p,salle:e.target.value}))}/></div>
+          </div>
+          <button className="btn-submit" onClick={save}>Ajouter le cours →</button>
+        </div>
+      </div>}
+    </div>
+  );
+}
+
+/* ════════════════════════════════
+   PARTIE 4 — APPLICATION / TECHNO
+   (section "Technologies" + doc modale du site)
+════════════════════════════════ */
+function PartieApp(){
+  const [docTab,setDocTab]=useState("intro");
+
+  return(
+    <div>
+      <div className="section-tag">Stack technique</div>
+      <h2 className="section-title">Technologies utilisées</h2>
+      <p className="section-sub">Un choix de technologies modernes, éprouvées et open source pour une application robuste et scalable.</p>
+
+      {/* Tech grid — identique site */}
+      <div className="tech-grid" style={{marginBottom:"2rem"}}>
+        {[
+          {l:"⚛️",n:"React.js",p:"Interface utilisateur dynamique et réactive"},
+          {l:"🟩",n:"Node.js",p:"Serveur backend performant et asynchrone"},
+          {l:"🐘",n:"PostgreSQL",p:"Base de données relationnelle robuste"},
+          {l:"🔷",n:"Prisma ORM",p:"Modélisation et migrations de la BDD"},
+          {l:"🔐",n:"JWT / OAuth",p:"Authentification sécurisée par rôles"},
+          {l:"🐙",n:"Git / GitHub",p:"Versioning et collaboration en équipe"},
+          {l:"🐳",n:"Docker",p:"Conteneurisation pour le déploiement"},
+          {l:"☁️",n:"Vercel / Railway",p:"Hébergement cloud continu (CI/CD)"},
+        ].map(t=>(
+          <div key={t.n} className="tech-card">
+            <span className="tech-logo">{t.l}</span>
+            <h4>{t.n}</h4>
+            <p>{t.p}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Documentation — contenu identique aux modaux du site */}
+      <div className="section-tag">Documentation CahierSmart</div>
+      <div className="card" style={{marginBottom:"1rem"}}>
+        <div className="doc-tabs">
+          {[["intro","Introduction"],["install","Installation"],["roles","Rôles & accès"],["api","API REST"]].map(([k,l])=>(
+            <button key={k} className={`doc-tab${docTab===k?" active":""}`} onClick={()=>setDocTab(k)}>{l}</button>
+          ))}
+        </div>
+
+        {docTab==="intro"&&<div>
+          <h4 style={{color:"#fff",fontWeight:600,marginBottom:".65rem"}}>Qu'est-ce que CahierSmart ?</h4>
+          <p className="muted text-sm" style={{lineHeight:1.8,marginBottom:"1rem"}}>CahierSmart est une application web de gestion des cahiers de textes scolaires. Elle remplace le support papier par une interface numérique centralisée, accessible depuis n'importe quel appareil.</p>
+          <div className="doc-cards">
+            <div className="doc-card"><span className="doc-card-icon">🎯</span><strong>Objectif principal</strong><p>Centraliser la saisie et la consultation des contenus pédagogiques en temps réel.</p></div>
+            <div className="doc-card"><span className="doc-card-icon">🔗</span><strong>Interconnexion</strong><p>Enseignants, élèves, parents et admins partagent un espace commun sécurisé.</p></div>
+            <div className="doc-card"><span className="doc-card-icon">📱</span><strong>Multi-device</strong><p>Interface responsive disponible sur ordinateur, tablette et mobile.</p></div>
+          </div>
+          <h4 style={{color:"#fff",fontWeight:600,marginBottom:".65rem"}}>Architecture générale</h4>
+          <div className="arch-diagram">
+            <div className="arch-block">Frontend<br/><small>React.js</small></div>
+            <div className="arch-arrow">→</div>
+            <div className="arch-block">API REST<br/><small>Node.js</small></div>
+            <div className="arch-arrow">→</div>
+            <div className="arch-block">Base de données<br/><small>PostgreSQL</small></div>
+          </div>
+        </div>}
+
+        {docTab==="install"&&<div>
+          <h4 style={{color:"#fff",fontWeight:600,marginBottom:".65rem"}}>Prérequis</h4>
+          <ul className="doc-list">{["Node.js v18+","PostgreSQL 14+","Git installé","Un compte GitHub"].map(p=><li key={p}>{p}</li>)}</ul>
+          <h4 style={{color:"#fff",fontWeight:600,marginBottom:".65rem"}}>Étapes d'installation</h4>
+          <div className="step-list">
+            {[
+              ["Cloner le dépôt","git clone https://github.com/votre-org/cahiersmart.git\ncd cahiersmart"],
+              ["Installer les dépendances","npm install"],
+              ["Configurer l'environnement","cp .env.example .env\n# Renseigner DATABASE_URL, JWT_SECRET..."],
+              ["Lancer les migrations","npx prisma migrate dev"],
+              ["Démarrer l'application","npm run dev"],
+            ].map(([t,c],i)=>(
+              <div key={i} className="step">
+                <span className="step-num">{i+1}</span>
+                <div><strong>{t}</strong><div className="code-block">{c}</div></div>
+              </div>
+            ))}
+          </div>
+        </div>}
+
+        {docTab==="roles"&&<div>
+          <h4 style={{color:"#fff",fontWeight:600,marginBottom:".5rem"}}>Gestion des rôles</h4>
+          <p className="muted text-sm" style={{marginBottom:"1rem"}}>CahierSmart utilise un système RBAC (Role-Based Access Control) avec 4 profils distincts.</p>
+          <table className="doc-table">
+            <thead><tr><th>Rôle</th><th>Saisie cours</th><th>Voir notes</th><th>Gérer users</th><th>Stats globales</th></tr></thead>
+            <tbody>
+              <tr><td>👨‍🏫 Enseignant</td><td className="yes">✔</td><td className="yes">✔ (sa classe)</td><td className="no">✘</td><td className="no">✘</td></tr>
+              <tr><td>🎓 Élève</td><td className="no">✘</td><td className="yes">✔ (ses notes)</td><td className="no">✘</td><td className="no">✘</td></tr>
+              <tr><td>👨‍👩‍👧 Parent</td><td className="no">✘</td><td className="yes">✔ (enfant)</td><td className="no">✘</td><td className="no">✘</td></tr>
+              <tr><td>🏫 Admin</td><td className="yes">✔</td><td className="yes">✔</td><td className="yes">✔</td><td className="yes">✔</td></tr>
+            </tbody>
+          </table>
+        </div>}
+
+        {docTab==="api"&&<div>
+          <h4 style={{color:"#fff",fontWeight:600,marginBottom:".65rem"}}>Endpoints principaux</h4>
+          <div className="endpoint-list">
+            {[
+              ["GET","/api/cahiers","Lister tous les cahiers de textes","get"],
+              ["POST","/api/cahiers","Créer une nouvelle entrée","post"],
+              ["GET","/api/cahiers/:id","Détail d'une séance","get"],
+              ["PUT","/api/cahiers/:id","Modifier une séance","put"],
+              ["DELETE","/api/cahiers/:id","Supprimer une séance","del"],
+              ["POST","/api/auth/login","Authentification → JWT token","post"],
+              ["GET","/api/users/me","Profil de l'utilisateur connecté","get"],
+              ["GET","/api/stats/classes","Statistiques par classe (admin)","get"],
+            ].map(([m,r,d,cls])=>(
+              <div key={r+m} className="endpoint">
+                <span className={`method ${cls}`}>{m}</span>
+                <span className="route">{r}</span>
+                <span className="ep-desc">{d}</span>
+              </div>
+            ))}
+          </div>
+        </div>}
+      </div>
+
+      {/* CTA — identique site */}
+      <div style={{
+        background:"linear-gradient(135deg,rgba(26,86,219,.2),rgba(0,229,176,.1))",
+        border:"1px solid rgba(26,86,219,.3)",
+        borderRadius:24,padding:"3rem 2.5rem",textAlign:"center",
+        position:"relative",overflow:"hidden",marginTop:"1.5rem"
+      }}>
+        <div style={{position:"absolute",width:200,height:200,background:"var(--blue)",borderRadius:"50%",top:-100,left:-80,opacity:.12,filter:"blur(70px)",pointerEvents:"none"}}/>
+        <h2 style={{fontFamily:"'DM Serif Display',serif",fontSize:"1.8rem",color:"#fff",marginBottom:".75rem"}}>Prêt à moderniser votre établissement ?</h2>
+        <p className="muted" style={{marginBottom:"1.5rem",fontSize:".95rem"}}>Rejoignez les premières écoles qui adoptent CahierSmart pour une pédagogie plus fluide et connectée.</p>
+        <div style={{display:"flex",gap:"1rem",justifyContent:"center",flexWrap:"wrap"}}>
+          <a href="#" className="btn btn-primary">Demander une démo →</a>
+          <a href="#" className="btn btn-secondary">Voir la documentation</a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ════════════════════════════════
+   ASSISTANT IA
+════════════════════════════════ */
+function AssistantIA({matieres,entries}){
+  const [msgs,setMsgs]=useState([{role:"assistant",content:"Bonjour ! Je suis l'assistant pédagogique CahierSmart ✦\n\nJe peux vous aider à rédiger des séances, suggérer des progressions, analyser votre cahier ou générer des évaluations. Comment puis-je vous aider ?"}]);
+  const [input,setInput]=useState("");
+  const [loading,setLoading]=useState(false);
+  const endRef=useRef(null);
+  useEffect(()=>endRef.current?.scrollIntoView({behavior:"smooth"}),[msgs]);
+
+  const CHIPS=["Rédige une séance de cours","Génère des devoirs adaptés","Analyse ma progression","Propose une évaluation","Crée un plan de révision","Suggère des objectifs"];
+
+  const SYS=`Tu es l'assistant pédagogique intégré à CahierSmart, plateforme sénégalaise de gestion des cahiers de textes.
+Matières : ${matieres.map(m=>m.nom).join(", ")}. Séances enregistrées : ${entries.length}.
+Réponds en français, de façon professionnelle et concise. Tu aides : rédaction séances, planification, compétences, évaluations, devoirs.`;
+
+  const send=async(txt)=>{
+    const msg=txt||input.trim();
+    if(!msg||loading)return;
+    setInput("");
+    const updated=[...msgs,{role:"user",content:msg}];
+    setMsgs(updated);setLoading(true);
+    try{
+      const r=await fetch("https://api.anthropic.com/v1/messages",{
+        method:"POST",
+        headers:{"Content-Type":"application/json","anthropic-dangerous-direct-browser-access":"true"},
+        body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:800,system:SYS,messages:updated.map(m=>({role:m.role,content:m.content}))})
+      });
+      const d=await r.json();
+      setMsgs(p=>[...p,{role:"assistant",content:d.content?.[0]?.text||"Désolé, erreur de réponse."}]);
+    }catch{
+      setMsgs(p=>[...p,{role:"assistant",content:"Erreur de connexion. Vérifiez votre accès réseau."}]);
+    }
+    setLoading(false);
+  };
+
+  return(
+    <div className="ai-wrap">
+      <div className="ai-chips">
+        {CHIPS.map(c=><button key={c} className="ai-chip" onClick={()=>send(c)}>{c}</button>)}
+      </div>
+      <div className="ai-messages">
+        {msgs.map((m,i)=>(
+          <div key={i} className={`ai-msg${m.role==="user"?" user":""}`}>
+            <div className={`msg-av${m.role==="assistant"?" ai":" me"}`}>{m.role==="assistant"?"IA":"Moi"}</div>
+            <div className="msg-bubble">{m.content}</div>
+          </div>
+        ))}
+        {loading&&<div className="ai-msg"><div className="msg-av ai">IA</div><div className="msg-bubble muted">En train de rédiger…</div></div>}
+        <div ref={endRef}/>
+      </div>
+      <div className="ai-input-row">
+        <textarea className="ai-input" placeholder="Posez votre question pédagogique… (Entrée pour envoyer)" value={input}
+          onChange={e=>setInput(e.target.value)}
+          onKeyDown={e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send();}}}
+        />
+        <button className="btn btn-primary btn-sm" onClick={()=>send()} disabled={loading||!input.trim()}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ════════════════════════════════
+   APP ROOT
+════════════════════════════════ */
+function App(){
+  const [page,setPage]=useState("acteurs");
+  const [matieres,setMatieres]=useState(MATIERES_INIT);
+  const [entries,setEntries]=useState(ENTRIES_INIT);
+  const [planning,setPlanning]=useState(PLANNING_INIT);
+
+  const NAV=[
+    {id:"acteurs",   ico:"👥", label:"Acteurs & Dashboard",  sub:"Partie 1"},
+    {id:"cahier",    ico:"📝", label:"Cahier de textes",      sub:"Partie 2"},
+    {id:"planning",  ico:"📅", label:"Planning & EDT",        sub:"Partie 3"},
+    {id:"appli",     ico:"💻", label:"Application & Technos", sub:"Partie 4"},
+    {id:"ia",        ico:"🤖", label:"Assistant IA",          sub:"Bonus"},
+  ];
+
+  const TITLES={
+    acteurs:"Acteurs — Tableau de bord",
+    cahier:"Cahier de textes — Fonctionnalités",
+    planning:"Planning & Emploi du temps",
+    appli:"Application — Technologies & Docs",
+    ia:"Assistant Pédagogique IA",
+  };
+
+  return(
+    <div className="app">
+      {/* ── SIDEBAR ─────────────────────────── */}
+      <aside className="sidebar">
+        <div className="sidebar-logo">
+          <div className="logo-icon">📓</div>
+          <div>
+            <div className="logo-name">CahierSmart</div>
+            <div className="logo-sub">Application complète</div>
+          </div>
+        </div>
+
+        <nav className="sidebar-nav">
+          <div className="nav-section">Les 4 parties</div>
+          {NAV.map(n=>(
+            <button key={n.id} className={`nav-item${page===n.id?" active":""}`} onClick={()=>setPage(n.id)}>
+              <span className="nav-ico">{n.ico}</span>
+              <span>
+                <span style={{display:"block"}}>{n.label}</span>
+                <span style={{display:"block",fontSize:".62rem",opacity:.5,marginTop:1}}>{n.sub}</span>
+              </span>
+            </button>
+          ))}
+        </nav>
+
+        <div className="sidebar-user">
+          <div className="user-av">AS</div>
+          <div>
+            <div className="user-name">Amadou Sall</div>
+            <div className="user-role">Enseignant · T·S1</div>
+          </div>
+        </div>
+      </aside>
+
+      {/* ── MAIN ────────────────────────────── */}
+      <div className="main">
+        {/* Topbar — style nav du site */}
+        <div className="topbar">
+          <div className="topbar-title">{TITLES[page]}</div>
+          <div className="topbar-right">
+            {page==="ia"&&(
+              <span className="badge badge-ok" style={{display:"inline-flex",alignItems:"center",gap:6}}>
+                <span style={{width:6,height:6,borderRadius:"50%",background:"var(--accent)",display:"inline-block"}}/>
+                IA connectée
+              </span>
+            )}
+            <span className="badge badge-blue">2025–2026</span>
+          </div>
+        </div>
+
+        <div className="content">
+          {page==="acteurs" &&<PartieActeurs  entries={entries} matieres={matieres}/>}
+          {page==="cahier"  &&<PartieCahier   entries={entries} setEntries={setEntries} matieres={matieres} setMatieres={setMatieres}/>}
+          {page==="planning"&&<PartiePlanning planning={planning} setPlanning={setPlanning} matieres={matieres}/>}
+          {page==="appli"   &&<PartieApp/>}
+          {page==="ia"      &&<AssistantIA    matieres={matieres} entries={entries}/>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

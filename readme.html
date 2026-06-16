@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>CahierSmart - README</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0A1F44;
+      --blue: #1E90FF;
+      --accent: #00C2A8;
+      --light: #F5F5F5;
+    }
+
+    body {
+      font-family: 'Sora', sans-serif;
+      background: var(--navy);
+      color: var(--light);
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--navy); /* même couleur que le reste */
+      text-align: center;
+      padding: 2rem;
+      font-family: 'DM Serif Display', serif;
+      color: var(--light);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      color: var(--accent);
+    }
+
+    section {
+      margin: 2rem auto;
+      max-width: 1000px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    h2 {
+      color: var(--accent);
+      border-bottom: 2px solid var(--blue);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+      font-family: 'DM Serif Display', serif;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+    table th, table td {
+      border: 1px solid var(--blue);
+      padding: 0.75rem;
+      text-align: left;
+      color: var(--light);
+    }
+    table th {
+      background: var(--accent);
+      color: white;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .card {
+      background: var(--blue);
+      color: white;
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    ul li {
+      background: rgba(255,255,255,0.1);
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      border-left: 4px solid var(--accent);
+    }
+
+    pre {
+      background: rgba(255,255,255,0.1);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      color: var(--light);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 1rem;
+      background: var(--accent);
+      color: white;
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>CahierSmart</h1>
+  <p>Gestion intelligente des cahiers de textes</p>
+  <p>Plateforme sénégalaise · Année scolaire 2025–2026</p>
+</header>
+
+<section>
+  <h2>Équipe — Groupe 5</h2>
+  <table>
+    <tr><th>Nom</th><th>Rôle</th></tr>
+    <tr><td>Ibrahima Diallo</td><td>Coordinateur général du projet</td></tr>
+    <tr><td>Dado Gadjo</td><td>Responsable du cahier des charges</td></tr>
+    <tr><td>Ibrahima Gueye</td><td>Développeur Frontend — HTML & CSS</td></tr>
+    <tr><td>Boubacar Gassama</td><td>Développeur — JavaScript & Logique applicative</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Description du projet</h2>
+  <p>CahierSmart est une application web complète permettant de digitaliser et centraliser la gestion des cahiers de textes dans les établissements scolaires. Elle s’adresse à quatre acteurs principaux :</p>
+  <div class="card-grid">
+    <div class="card">👨‍🏫 Enseignant — saisit cours, devoirs, évaluations</div>
+    <div class="card">👩‍🎓 Élève — consulte programme, devoirs, notes</div>
+    <div class="card">👨‍👩‍👧 Parent — suit scolarité, reçoit alertes</div>
+    <div class="card">🛠️ Administrateur — gère emplois du temps, classes</div>
+  </div>
+</section>
+
+<section>
+  <h2>Structure des livrables</h2>
+  <pre>
+Groupe5/
+├── site.html               # Site vitrine CahierSmart (HTML/CSS)
+├── Groupe5_Application.html # Application interactive complète (React)
+└── README.md               # Ce fichier
+  </pre>
+</section>
+
+<section>
+  <h2>Répartition des tâches</h2>
+  <ul>
+    <li><strong>Ibrahima Diallo</strong> — Organisation, coordination, cohérence, planning, présentation finale</li>
+    <li><strong>Dado Gadjo</strong> — Cahier des charges, acteurs, fonctionnalités, documentation</li>
+    <li><strong>Ibrahima Gueye</strong> — Site vitrine, navigation, Hero, acteurs, fonctionnalités, Gantt, stack technique, CTA, design system, responsive</li>
+    <li><strong>Boubacar Gassama</strong> — Application React, SPA, dashboard, CRUD cahier, planning, stack technique, assistant IA, logique métier</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Stack technique</h2>
+  <table>
+    <tr><th>Technologie</th><th>Usage</th></tr>
+    <tr><td>HTML5 / CSS3</td><td>Structure et design du site vitrine</td></tr>
+    <tr><td>JavaScript / React 18</td><td>Logique et composants de l’application</td></tr>
+    <tr><td>Babel (standalone)</td><td>Transpilation JSX côté client</td></tr>
+    <tr><td>Google Fonts (Sora, DM Serif Display)</td><td>Typographie</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Planning de développement</h2>
+  <table>
+    <tr><th>Phase</th><th>Tâche</th><th>Semaines</th></tr>
+    <tr><td>Phase 1</td><td>Planification & Cahier des charges</td><td>S1 – S2</td></tr>
+    <tr><td>Phase 2</td><td>Site vitrine (HTML/CSS)</td><td>S3 – S4</td></tr>
+    <tr><td>Phase 3</td><td>Frontend Application (React/JS)</td><td>S5 – S7</td></tr>
+    <tr><td>Phase 4</td><td>Tests, QA & Déploiement</td><td>S7 – S8</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Lancement</h2>
+  <p>Aucune installation requise. Ouvrir directement dans un navigateur moderne :</p>
+  <ul>
+    <li><strong>Site vitrine :</strong> site.html</li>
+    <li><strong>Application complète :</strong> Groupe5_Application.html</li>
+  </ul>
+  <p><em>Connexion internet nécessaire pour charger Google Fonts et React via CDN.</em></p>
+</section>
+
+<section>
+  <h2>Contact</h2>
+  <p>Projet réalisé dans le cadre d’un exercice de formation en développement web · Groupe 5 — CahierSmart</p>
+</section>
+
+<div class="footer">
+  © Groupe 5 — CahierSmart · 2025–2026
+</div>
+
+</body>
+</html>
